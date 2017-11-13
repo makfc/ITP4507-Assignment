@@ -23,7 +23,7 @@ public class Main {
 //                "CreateRectangleCommandFactory"
 //        };
         HashMap<String, String> factoryMap = new HashMap<String, String>(){{
-            put("c","CreateFoodItemCommandFactory");
+            put("c","CreateFoodCommandFactory");
             put("","");
             put("","");
             put("","");

@@ -26,13 +26,4 @@ public class CreateRiceCommand implements Command {
         System.out.println("New item record created.");
     }
 
-    @Override
-    public void undo() {
-        foodItems.remove(foodItem);
-    }
-
-    @Override
-    public void redo() {
-        execute();
-    }
 }
