@@ -3,7 +3,6 @@ package Factory;
 import Command.*;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 
@@ -28,6 +27,7 @@ public class CreateFoodCommandFactory extends CommandFactory {
                     (CreateFoodCommandFactory) Class.forName(
                     "Factory."+ ((String)foodFactoryMap.get(line))
             ).newInstance();
+            foodCommandFactory.setFoodItems(foodItems);
             command = foodCommandFactory.create();
         } catch (Exception e) {
             e.printStackTrace();
