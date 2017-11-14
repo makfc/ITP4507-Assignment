@@ -1,5 +1,6 @@
 package Memento;
 
+import Stock.FoodItem;
 import Stock.Rice;
 import Stock.InstantNoodle;
 
@@ -8,6 +9,10 @@ import java.util.Stack;
 public class Caretaker {
     private Stack<Memento> undoStack = new Stack<>();
     private Stack<Memento> redoStack = new Stack<>();
+
+    public void saveFoodItem(FoodItem foodItem){
+
+    }
 
     public void saveRice(Rice rice){
         redoStack.clear();
@@ -20,11 +25,17 @@ public class Caretaker {
     }
 
     public void undo(){
-        undoStack.pop().restore();
+        Memento memento = undoStack.pop();
+        memento.restore();
+        redoStack.push(memento);
+        System.out.println("undo completed.");
     }
 
     public void redo(){
-        redoStack.pop().restore();
+        Memento memento = redoStack.pop();
+        memento.restore();
+        undoStack.push(memento);
+        System.out.println("redo completed.");
     }
 
     public void displayUndoRedoList(){

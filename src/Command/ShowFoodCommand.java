@@ -25,13 +25,13 @@ public class ShowFoodCommand implements Command {
             for (FoodItem foodItem: foodItems) {
 
                 // parse the foodItem.toString() format
-                String[] foodItemFieldValueStr =
+                String[] foodFieldAndValueStr =
                         foodItem.toString().split("\n");
-                String id = getFoodItemFieldValue(foodItemFieldValueStr[0]);
-                String name = getFoodItemFieldValue(foodItemFieldValueStr[1]);
-                String quantity = getFoodItemFieldValue(foodItemFieldValueStr[2]);
-                String otherInfo = getFoodItemFieldValue(foodItemFieldValueStr[3]);
-                String otherInfoFieldName = getFoodItemFieldName(foodItemFieldValueStr[3]);
+                String id = getFoodItemValue(foodFieldAndValueStr[0]);
+                String name = getFoodItemValue(foodFieldAndValueStr[1]);
+                String quantity = getFoodItemValue(foodFieldAndValueStr[2]);
+                String otherInfo = getFoodItemValue(foodFieldAndValueStr[3]);
+                String otherInfoFieldName = getFoodItemFieldName(foodFieldAndValueStr[3]);
 
                 System.out.printf(tableFormat, id, name, quantity,
                         otherInfoFieldName + ": " +otherInfo);
@@ -50,11 +50,11 @@ public class ShowFoodCommand implements Command {
         }
     }
 
-    private String getFoodItemFieldValue(String data){
-        return data.split(": ")[1];
+    private String getFoodItemValue(String fieldAndValueStr){
+        return fieldAndValueStr.split(": ")[1];
     }
 
-    private String getFoodItemFieldName(String data){
-        return data.split(": ")[0];
+    private String getFoodItemFieldName(String fieldAndValueStr){
+        return fieldAndValueStr.split(": ")[0];
     }
 }

@@ -1,5 +1,6 @@
 package Factory;
 
+import Memento.Caretaker;
 import Stock.FoodItem;
 import Command.*;
 
@@ -8,12 +9,15 @@ import java.util.Vector;
 
 public abstract class CommandFactory {
     Vector<FoodItem> foodItems;
-    Stack<Command> undoList = new Stack<>();
-    Stack<Command> redoList = new Stack<>();
+    Caretaker caretaker;
 
     public abstract Command create() throws Exception;
 
     public void setFoodItems(Vector<FoodItem> foodItems) {
         this.foodItems = foodItems;
+    }
+
+    public void setCaretaker(Caretaker caretaker) {
+        this.caretaker = caretaker;
     }
 }

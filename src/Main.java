@@ -1,4 +1,5 @@
 import Factory.CommandFactory;
+import Memento.Caretaker;
 import Stock.FoodItem;
 import Command.*;
 
@@ -12,9 +13,7 @@ import java.util.Vector;
 public class Main {
     public static void main(String[] args) {
         Vector<FoodItem> foodItems = new Vector<>();
-        Stack<Command> undoList = new Stack<>();
-        Stack<Command> redoList = new Stack<>();
-
+        Caretaker caretaker = new Caretaker();
 
         // for test
         Vector<Command> commands = new Vector<>();
@@ -22,7 +21,7 @@ public class Main {
         commands.add(new CreateInstantNoodleCommand(foodItems, 2010, "Quick Noodle", 100));
         commands.forEach(command -> {
             command.execute();
-            undoList.push(command);
+
         });
 
 
@@ -53,12 +52,13 @@ public class Main {
                     case "l":
                         CommandFactory commandFactory = (CommandFactory) Class.forName("Factory." + ((String) factoryMap.get(option))).newInstance();
                         commandFactory.setFoodItems(foodItems);
+                        commandFactory.setCaretaker(caretaker);
                         c = commandFactory.create();
                         if (c != null) {
                             c.execute();
                             if (!(c instanceof ShowFoodCommand ||
                                     c instanceof ShowFoodCommand)) {
-                                undoList.push(c);
+                                //undoList.push(c);
                             }
                         }
                         break;
