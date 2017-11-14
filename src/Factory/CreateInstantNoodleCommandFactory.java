@@ -7,28 +7,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class CreateInstantNoodleCommandFactory extends CreateFoodCommandFactory {
-    private int weight;
-
     @Override
-    public Command create() {
-        Command command = null;
-
+    public Command create() throws Exception {
         InputStreamReader is = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(is);
+
         System.out.println("Enter id, name and weight:");
-        try {
-            String line = br.readLine();
-            String[] record = line.split(",");
-            for (int i = 0; i < record.length; i++) {
-                record[i] = record[i].trim();
-            }
-            itemID = Integer.parseInt(record[0]);
-            name = record[1];
-            weight = Integer.parseInt(record[2]);
-            command = new CreateInstantNoodleCommand(foodItems, itemID, name, weight);
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        String line = br.readLine();
+        String[] record = line.split(",");
+
+        // remove any leading and trailing whitespace
+        for (int i = 0; i < record.length; i++) {
+            record[i] = record[i].trim();
         }
-        return command;
+        itemID = Integer.parseInt(record[0]);
+        name = record[1];
+        int weight = Integer.parseInt(record[2]);
+        return new CreateInstantNoodleCommand(foodItems, itemID, name, weight);
     }
 }

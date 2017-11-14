@@ -32,9 +32,8 @@ public class FoodItem {
 
     @Override
     public String toString() {
-        return "FoodItem{" + "itemID=" + itemID +
-                ", name='" + name + '\'' +
-                ", balance=" + balance +
-                '}';
+        return "ID: " + itemID + '\n' +
+                "Name: " + name + '\n' +
+                "Quantity: " + balance + '\n';
     }
 }
