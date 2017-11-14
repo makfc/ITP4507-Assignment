@@ -23,6 +23,6 @@ public class CreateRiceCommandFactory extends CreateFoodCommandFactory {
         itemID = Integer.parseInt(record[0]);
         name = record[1];
         String type = record[2];
-        return new CreateRiceCommand(foodItems, itemID, name, type);
+        return new CreateRiceCommand(foodItems, caretaker, itemID, name, type);
     }
 }

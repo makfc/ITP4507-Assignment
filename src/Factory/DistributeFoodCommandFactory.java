@@ -23,7 +23,7 @@ public class DistributeFoodCommandFactory extends CommandFactory {
             if (foodItem.getBalance() < quantity){
                 System.out.println("Invalid quantity (current balance < distributing quantity).");
             } else {
-                return new DistributeFoodCommand(foodItem, quantity);
+                return new DistributeFoodCommand(caretaker, foodItem, quantity);
             }
         } else {
             System.out.println("Food item with specified ID not found!");

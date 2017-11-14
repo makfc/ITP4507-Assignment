@@ -23,6 +23,6 @@ public class CreateInstantNoodleCommandFactory extends CreateFoodCommandFactory 
         itemID = Integer.parseInt(record[0]);
         name = record[1];
         int weight = Integer.parseInt(record[2]);
-        return new CreateInstantNoodleCommand(foodItems, itemID, name, weight);
+        return new CreateInstantNoodleCommand(foodItems, caretaker, itemID, name, weight);
     }
 }

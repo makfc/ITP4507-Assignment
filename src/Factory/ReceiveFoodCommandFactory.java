@@ -20,7 +20,7 @@ public class ReceiveFoodCommandFactory extends CommandFactory {
 
         FoodItem foodItem = FoodItemsUtil.getFoodItemByID(foodItems, itemID);
         if (foodItem != null) {
-            return new ReceiveFoodCommand(foodItem, quantity);
+            return new ReceiveFoodCommand(caretaker, foodItem, quantity);
         } else {
             System.out.println("Food item with specified ID not found!");
             return null;

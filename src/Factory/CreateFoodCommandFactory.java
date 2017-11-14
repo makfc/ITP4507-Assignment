@@ -23,6 +23,7 @@ public class CreateFoodCommandFactory extends CommandFactory {
         String line = br.readLine();
         CreateFoodCommandFactory foodCommandFactory = (CreateFoodCommandFactory) Class.forName("Factory." + ((String) foodFactoryMap.get(line))).newInstance();
         foodCommandFactory.setFoodItems(foodItems);
+        foodCommandFactory.setCaretaker(caretaker);
         return foodCommandFactory.create();
     }
 }

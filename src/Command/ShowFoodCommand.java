@@ -45,7 +45,10 @@ public class ShowFoodCommand implements Command {
                     System.out.println(foodItem);
                     return;
                 }
-            } catch (NumberFormatException ignored){ }
+            } catch (NumberFormatException e){
+                System.out.println("Invalid ID!");
+                return;
+            }
             System.out.println("Food item with specified ID not found!");
         }
     }

@@ -17,11 +17,12 @@ public class Main {
 
         // for test
         Vector<Command> commands = new Vector<>();
-        commands.add(new CreateRiceCommand(foodItems, 1010, "Thailand Premium Rice", "brown"));
-        commands.add(new CreateInstantNoodleCommand(foodItems, 2010, "Quick Noodle", 100));
+        commands.add(new CreateRiceCommand(foodItems, caretaker,
+                1010, "Thailand Premium Rice", "brown"));
+        commands.add(new CreateInstantNoodleCommand(foodItems, caretaker,
+                2010, "Quick Noodle", 100));
         commands.forEach(command -> {
             command.execute();
-
         });
 
 
@@ -34,7 +35,9 @@ public class Main {
             put("s", "ShowFoodCommandFactory");
             put("g", "ReceiveFoodCommandFactory");
             put("d", "DistributeFoodCommandFactory");
-            put("l", "");
+            put("u", "UndoCommandFactory");
+            put("r", "RedoCommandFactory");
+            put("l", "ListUndoRedoCommandFactory");
         }};
 
         while (true) {
@@ -50,46 +53,19 @@ public class Main {
                     case "g":
                     case "d":
                     case "l":
+                    case "u":
+                    case "r":
                         CommandFactory commandFactory = (CommandFactory) Class.forName("Factory." + ((String) factoryMap.get(option))).newInstance();
                         commandFactory.setFoodItems(foodItems);
                         commandFactory.setCaretaker(caretaker);
                         c = commandFactory.create();
                         if (c != null) {
                             c.execute();
-                            if (!(c instanceof ShowFoodCommand ||
-                                    c instanceof ShowFoodCommand)) {
-                                //undoList.push(c);
-                            }
                         }
-                        break;
-                    case "u":
-
-                        break;
-                    case "r":
-
                         break;
                     case "x":
                         System.out.println("Leaving System...");
                         System.exit(0);
-/*                    case 1:
-                        c = history.pop();
-                        c.undo();
-                        break;
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                        CommandFactory commandFactory = (CommandFactory)
-                                Class.forName(
-                                        Main.class.getPackage().getName()+"."+
-                                                factory[option-2]).newInstance();
-                        commandFactory.setShapes(shapes);
-                        c = commandFactory.create();
-                        c.execute();
-                        if (!(c instanceof DrawCommand)) {
-                            history.push(c);
-                        }
-                    break;*/
                     default:
                         throw new Exception("Invalid Option");
                 }
