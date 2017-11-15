@@ -6,19 +6,11 @@ import Stock.InstantNoodle;
 
 import java.util.Vector;
 
-public class CreateInstantNoodleCommand implements Command {
-    private FoodItem foodItem;
-    private Vector<FoodItem> foodItems;
-    private Caretaker caretaker;
-    private int itemID;
-    private String name;
+public class CreateInstantNoodleCommand extends CreateFoodCommand {
     private int weight;
 
     public CreateInstantNoodleCommand(Vector<FoodItem> foodItems, Caretaker caretaker, int itemID, String name, int weight) {
-        this.foodItems = foodItems;
-        this.caretaker = caretaker;
-        this.itemID = itemID;
-        this.name = name;
+        super(foodItems, caretaker, itemID, name);
         this.weight = weight;
     }
 
@@ -26,7 +18,7 @@ public class CreateInstantNoodleCommand implements Command {
     public void execute() {
         foodItem = new InstantNoodle(itemID, name, weight);
         foodItems.add(foodItem);
-        caretaker.saveFoodItem(foodItem);
+        caretaker.saveFoodItemAndCommand(foodItem, this);
         System.out.println("New item record created.");
     }
 

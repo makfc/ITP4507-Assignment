@@ -1,58 +1,108 @@
 package Memento;
 
+import Command.*;
 import Stock.FoodItem;
 import Stock.Rice;
 import Stock.InstantNoodle;
 
 import java.util.Stack;
+import java.util.Vector;
 
 public class Caretaker {
-    private Stack<Memento> undoStack = new Stack<>();
-    private Stack<Memento> redoStack = new Stack<>();
+    Vector<FoodItem> foodItems;
+    private Stack<StackItem> undoStack = new Stack<>();
+    private Stack<StackItem> redoStack = new Stack<>();
 
-    public void saveFoodItem(FoodItem foodItem){
-
+    public void setFoodItems(Vector<FoodItem> foodItems) {
+        this.foodItems = foodItems;
     }
 
-    public void saveRice(Rice rice){
+    public void saveFoodItemAndCommand(FoodItem foodItem, Command command) {
         redoStack.clear();
-        undoStack.push(new RiceMemento(rice));
+        if (foodItem instanceof Rice) {
+            saveRice((Rice) foodItem, command);
+        } else if (foodItem instanceof InstantNoodle) {
+            saveInstantNoodle((InstantNoodle) foodItem, command);
+        }
     }
 
-    public void saveInstantNoodle(InstantNoodle instantNoodle){
-        redoStack.clear();
-        undoStack.push(new InstantNoodleMemento(instantNoodle));
+    public void saveRice(Rice rice, Command command) {
+        Memento memento = new RiceMemento(rice);
+        undoStack.push(new StackItem(rice, memento, command));
     }
 
-    public void undo(){
-        Memento memento = undoStack.pop();
-        memento.restore();
-        redoStack.push(memento);
+    public void saveInstantNoodle(InstantNoodle instantNoodle, Command command) {
+        Memento memento = new InstantNoodleMemento(instantNoodle);
+        undoStack.push(new StackItem(instantNoodle, memento, command));
+    }
+
+    // return the FoodItem by the itemID of memento
+    private FoodItem getFoodItemByID(int itemID){
+        int index = -1;
+        for (FoodItem foodItem : foodItems) {
+            if (foodItem.getItemID() == itemID) {
+                index = foodItems.indexOf(foodItem);
+            }
+        }
+        return foodItems.get(index);
+    }
+
+    public void undo() {
+        if (undoStack.empty()) {
+            System.out.println("No last undo command.");
+            return;
+        }
+
+        StackItem stackItem = undoStack.pop();
+
+        // check if it is create food command then remove food item.
+        // otherwise, restore the food item property.
+        if (stackItem.getCommand() instanceof CreateFoodCommand) {
+
+            // get the FoodItem by the itemID of memento
+            FoodItem foodItem = getFoodItemByID(stackItem.getMemento().getItemID());
+            foodItems.remove(foodItem);
+        }else {
+            stackItem.getMemento().restore();
+        }
+        redoStack.push(stackItem);
         System.out.println("undo completed.");
     }
 
-    public void redo(){
-        Memento memento = redoStack.pop();
-        memento.restore();
-        undoStack.push(memento);
+    public void redo() {
+        if (redoStack.empty()) {
+            System.out.println("No last redo command.");
+            return;
+        }
+
+        StackItem stackItem = redoStack.pop();
+
+        // check if it is create food command then add food item.
+        // otherwise, restore the food item property.
+        if (stackItem.getCommand() instanceof CreateFoodCommand) {
+            foodItems.add(stackItem.getFoodItem());
+        }else {
+            stackItem.getMemento().restore();
+        }
+        undoStack.push(stackItem);
         System.out.println("redo completed.");
     }
 
-    public void displayUndoRedoList(){
+    public void displayUndoRedoList() {
         System.out.println("Undo List:");
-        if (undoStack.empty()){
+        if (undoStack.empty()) {
             System.out.println("Empty");
         } else {
-            undoStack.forEach(System.out::println);
+            undoStack.forEach(stackItem -> System.out.println(stackItem.getCommand().toString()));
         }
 
         System.out.println();
 
         System.out.println("Redo List:");
-        if (redoStack.empty()){
+        if (redoStack.empty()) {
             System.out.println("Empty");
         } else {
-            redoStack.forEach(System.out::println);
+            redoStack.forEach(stackItem -> System.out.println(stackItem.getCommand().toString()));
         }
     }
 }

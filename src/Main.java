@@ -14,6 +14,7 @@ public class Main {
     public static void main(String[] args) {
         Vector<FoodItem> foodItems = new Vector<>();
         Caretaker caretaker = new Caretaker();
+        caretaker.setFoodItems(foodItems);
 
         // for test
         Vector<Command> commands = new Vector<>();

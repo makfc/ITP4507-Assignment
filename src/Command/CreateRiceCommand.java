@@ -6,19 +6,11 @@ import Stock.Rice;
 
 import java.util.Vector;
 
-public class CreateRiceCommand implements Command {
-    private FoodItem foodItem;
-    private Vector<FoodItem> foodItems;
-    private Caretaker caretaker;
-    private int itemID;
-    private String name;
+public class CreateRiceCommand extends CreateFoodCommand {
     private String type;
 
     public CreateRiceCommand(Vector<FoodItem> foodItems, Caretaker caretaker, int itemID, String name, String type) {
-        this.foodItems = foodItems;
-        this.caretaker = caretaker;
-        this.itemID = itemID;
-        this.name = name;
+        super(foodItems, caretaker, itemID, name);
         this.type = type;
     }
 
@@ -26,8 +18,9 @@ public class CreateRiceCommand implements Command {
     public void execute() {
         foodItem = new Rice(itemID, name, type);
         foodItems.add(foodItem);
-        caretaker.saveFoodItem(foodItem);
+        caretaker.saveFoodItemAndCommand(foodItem, this);
         System.out.println("New item record created.");
     }
+
 
 }

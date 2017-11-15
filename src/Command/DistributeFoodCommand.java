@@ -16,7 +16,7 @@ public class DistributeFoodCommand implements Command {
 
     @Override
     public void execute() {
-        caretaker.saveFoodItem(foodItem);
+        caretaker.saveFoodItemAndCommand(foodItem, this);
         foodItem.setBalance(foodItem.getBalance() - quantity);
         System.out.println("Distributed " + quantity +
                 " packs of " + foodItem.getName() +
