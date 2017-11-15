@@ -1,12 +1,11 @@
-import Factory.CommandFactory;
-import Memento.Caretaker;
-import Stock.FoodItem;
 import Command.*;
+import Factory.CommandFactory;
+import Memento.*;
+import Stock.FoodItem;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.Stack;
 import java.util.Vector;
 
 
@@ -48,27 +47,20 @@ public class Main {
                         "c = create item, s = show item, g = receive item, d = distribute item,\n" +
                         "u = undo, r = redo, l = list undo/redo, x = exit system\n");
                 String option = br.readLine();
-                switch (option) {
-                    case "c":
-                    case "s":
-                    case "g":
-                    case "d":
-                    case "l":
-                    case "u":
-                    case "r":
-                        CommandFactory commandFactory = (CommandFactory) Class.forName("Factory." + ((String) factoryMap.get(option))).newInstance();
-                        commandFactory.setFoodItems(foodItems);
-                        commandFactory.setCaretaker(caretaker);
-                        c = commandFactory.create();
-                        if (c != null) {
-                            c.execute();
-                        }
-                        break;
-                    case "x":
-                        System.out.println("Leaving System...");
-                        System.exit(0);
-                    default:
-                        throw new Exception("Invalid Option");
+                String factoryName = factoryMap.get(option);
+                if (factoryName != null) {
+                    CommandFactory commandFactory = (CommandFactory) Class.forName("Factory." + factoryName).newInstance();
+                    commandFactory.setFoodItems(foodItems);
+                    commandFactory.setCaretaker(caretaker);
+                    c = commandFactory.create();
+                    if (c != null) {
+                        c.execute();
+                    }
+                } else if (option.equals("x")) {
+                    System.out.println("Leaving System...");
+                    System.exit(0);
+                } else {
+                    throw new Exception("Invalid Option");
                 }
             } catch (Exception e) {
                 System.out.println("*** " + e.getMessage());

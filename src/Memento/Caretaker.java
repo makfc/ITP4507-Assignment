@@ -9,7 +9,7 @@ import java.util.Stack;
 import java.util.Vector;
 
 public class Caretaker {
-    Vector<FoodItem> foodItems;
+    private Vector<FoodItem> foodItems;
     private Stack<StackItem> undoStack = new Stack<>();
     private Stack<StackItem> redoStack = new Stack<>();
 
@@ -55,13 +55,10 @@ public class Caretaker {
 
         StackItem stackItem = undoStack.pop();
 
-        // check if it is create food command then remove food item.
+        // check if it is the create food command then remove food item.
         // otherwise, restore the food item property.
         if (stackItem.getCommand() instanceof CreateFoodCommand) {
-
-            // get the FoodItem by the itemID of memento
-            FoodItem foodItem = getFoodItemByID(stackItem.getMemento().getItemID());
-            foodItems.remove(foodItem);
+            foodItems.remove(stackItem.getFoodItem());
         }else {
             stackItem.getMemento().restore();
         }
@@ -77,7 +74,7 @@ public class Caretaker {
 
         StackItem stackItem = redoStack.pop();
 
-        // check if it is create food command then add food item.
+        // check if it is the create food command then add food item.
         // otherwise, restore the food item property.
         if (stackItem.getCommand() instanceof CreateFoodCommand) {
             foodItems.add(stackItem.getFoodItem());
