@@ -1,6 +1,6 @@
 package Factory;
 
-import Memento.Caretaker;
+import Caretaker.Caretaker;
 import Stock.FoodItem;
 import Command.*;
 

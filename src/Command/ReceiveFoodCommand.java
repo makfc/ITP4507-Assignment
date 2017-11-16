@@ -1,6 +1,6 @@
 package Command;
 
-import Memento.Caretaker;
+import Caretaker.Caretaker;
 import Stock.FoodItem;
 
 public class ReceiveFoodCommand implements Command {

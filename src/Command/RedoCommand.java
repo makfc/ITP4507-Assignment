@@ -1,6 +1,6 @@
 package Command;
 
-import Memento.Caretaker;
+import Caretaker.Caretaker;
 
 public class RedoCommand implements Command {
     private Caretaker caretaker;
