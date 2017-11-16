@@ -16,7 +16,7 @@ public class ReceiveFoodCommand implements Command {
 
     @Override
     public void execute() {
-        caretaker.saveFoodItemAndCommand(foodItem, this);
+        caretaker.saveCurrentState(foodItem, this);
         foodItem.setBalance(foodItem.getBalance() + quantity);
         System.out.println("Received " + quantity +
                 " packs of " + foodItem.getName() +

@@ -18,7 +18,7 @@ public class CreateInstantNoodleCommand extends CreateFoodCommand {
     public void execute() {
         foodItem = new InstantNoodle(itemID, name, weight);
         foodItems.add(foodItem);
-        caretaker.saveFoodItemAndCommand(foodItem, this);
+        caretaker.saveCurrentState(foodItem, this);
         System.out.println("New item record created.");
     }
 

@@ -18,7 +18,7 @@ public class CreateRiceCommand extends CreateFoodCommand {
     public void execute() {
         foodItem = new Rice(itemID, name, type);
         foodItems.add(foodItem);
-        caretaker.saveFoodItemAndCommand(foodItem, this);
+        caretaker.saveCurrentState(foodItem, this);
         System.out.println("New item record created.");
     }
 

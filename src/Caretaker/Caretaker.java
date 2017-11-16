@@ -18,34 +18,22 @@ public class Caretaker {
         this.foodItems = foodItems;
     }
 
-    public void saveFoodItemAndCommand(FoodItem foodItem, Command command) {
-        redoStack.clear();
+    // get the corresponding Memento of FoodItem
+    public Memento getMemento(FoodItem foodItem){
         if (foodItem instanceof Rice) {
-            saveRice((Rice) foodItem, command);
+            return new RiceMemento((Rice) foodItem);
         } else if (foodItem instanceof InstantNoodle) {
-            saveInstantNoodle((InstantNoodle) foodItem, command);
+            return new InstantNoodleMemento((InstantNoodle) foodItem);
         }
+        return null;
     }
 
-    public void saveRice(Rice rice, Command command) {
-        Memento memento = new RiceMemento(rice);
-        undoStack.push(new StackItem(rice, memento, command));
-    }
+    public void saveCurrentState(FoodItem foodItem, Command command) {
+        redoStack.clear();
 
-    public void saveInstantNoodle(InstantNoodle instantNoodle, Command command) {
-        Memento memento = new InstantNoodleMemento(instantNoodle);
-        undoStack.push(new StackItem(instantNoodle, memento, command));
-    }
-
-    // return the FoodItem by the itemID of memento
-    private FoodItem getFoodItemByID(int itemID){
-        int index = -1;
-        for (FoodItem foodItem : foodItems) {
-            if (foodItem.getItemID() == itemID) {
-                index = foodItems.indexOf(foodItem);
-            }
-        }
-        return foodItems.get(index);
+        // save the current state of foodItem
+        Memento memento = getMemento(foodItem);
+        undoStack.push(new StackItem(foodItem, memento, command));
     }
 
     public void undo() {
@@ -54,6 +42,7 @@ public class Caretaker {
             return;
         }
 
+        // get the last undo command
         StackItem stackItem = undoStack.pop();
 
         // check if it is the create food command then remove food item.
@@ -61,7 +50,15 @@ public class Caretaker {
         if (stackItem.getCommand() instanceof CreateFoodCommand) {
             foodItems.remove(stackItem.getFoodItem());
         }else {
+            // save the current state of the last undo foodItem
+            Memento memento = getMemento(stackItem.getFoodItem());
+
             stackItem.getMemento().restore();
+
+            // for the later redo operation,
+            // we need to set the Memento to the new Memento
+            // which is before the restore
+            stackItem.setMemento(memento);
         }
         redoStack.push(stackItem);
         System.out.println("undo completed.");
@@ -73,6 +70,7 @@ public class Caretaker {
             return;
         }
 
+        // get the last redo command
         StackItem stackItem = redoStack.pop();
 
         // check if it is the create food command then add food item.
@@ -80,7 +78,15 @@ public class Caretaker {
         if (stackItem.getCommand() instanceof CreateFoodCommand) {
             foodItems.add(stackItem.getFoodItem());
         }else {
+            // save the current state of the last redo foodItem
+            Memento memento = getMemento(stackItem.getFoodItem());
+
             stackItem.getMemento().restore();
+
+            // for the later undo operation,
+            // we need to set the Memento to the new Memento
+            // which is before the restore
+            stackItem.setMemento(memento);
         }
         undoStack.push(stackItem);
         System.out.println("redo completed.");
