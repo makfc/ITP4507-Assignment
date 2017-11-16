@@ -17,10 +17,16 @@ public class ShowFoodCommand implements Command {
     @Override
     public void execute() {
         if (inputID.equals("*")) {
+            System.out.println();
             System.out.println("Food item information");
             final String tableFormat = "%-10s%-30s%-15s%s\n";
             System.out.printf(tableFormat,
                     "ID", "Name", "Quantity", "Other Info");
+
+            if (foodItems.isEmpty()) {
+                System.out.println("(Empty)");
+                return;
+            }
 
             for (FoodItem foodItem: foodItems) {
 
@@ -47,6 +53,7 @@ public class ShowFoodCommand implements Command {
                     return;
                 }
 
+                System.out.println();
                 System.out.println("Food item information");
                 System.out.println(foodItem);
             } catch (NumberFormatException e){
