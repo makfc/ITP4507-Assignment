@@ -61,7 +61,7 @@ public class Main {
                     throw new Exception("Invalid Option");
                 }
             } catch (NumberFormatException e){
-                System.out.println("Only number accepted!");
+                System.out.println("Only number are accepted!");
             } catch (Exception e) {
                 System.out.println("*** " + e.getMessage());
             }
