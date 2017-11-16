@@ -19,15 +19,21 @@ public class DistributeFoodCommandFactory extends CommandFactory {
         int quantity = Integer.parseInt(br.readLine());
 
         FoodItem foodItem = FoodItemsUtil.getFoodItemByID(foodItems, itemID);
-        if (foodItem != null) {
-            if (foodItem.getBalance() < quantity){
-                System.out.println("Invalid quantity (current balance < distributing quantity).");
-            } else {
-                return new DistributeFoodCommand(caretaker, foodItem, quantity);
-            }
-        } else {
+
+        // error checking
+        if (foodItem == null) {
             System.out.println("Food item with specified ID not found!");
+            return null;
         }
-        return null;
+        if (quantity <= 0) {
+            System.out.println("Quantity must greater zero!");
+            return null;
+        }
+        if (foodItem.getBalance() < quantity) {
+            System.out.println("Invalid quantity (current balance < distributing quantity).");
+            return null;
+        }
+
+        return new DistributeFoodCommand(caretaker, foodItem, quantity);
     }
 }

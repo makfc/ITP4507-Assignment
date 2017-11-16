@@ -42,17 +42,26 @@ public class Main {
 
         while (true) {
             try {
-                System.out.println("Advanced Inventory Management System\n" +
-                        "Please enter command: [c | s | g | d | u | r | l | x]\n" +
-                        "c = create item, s = show item, g = receive item, d = distribute item,\n" +
-                        "u = undo, r = redo, l = list undo/redo, x = exit system\n");
+                System.out.println("Advanced Inventory Management System\n" + "Please enter command: [c | s | g | d | u | r | l | x]\n" + "c = create item, s = show item, g = receive item, d = distribute item,\n" + "u = undo, r = redo, l = list undo/redo, x = exit system\n");
                 String option = br.readLine();
+
+                // get the factoryName from the HashMap
                 String factoryName = factoryMap.get(option);
+
+                // if the option is in the HashMap,
+                // then call the corresponding factory
                 if (factoryName != null) {
+
+                    // create the corresponding factory
                     CommandFactory commandFactory = (CommandFactory) Class.forName("Factory." + factoryName).newInstance();
+
                     commandFactory.setFoodItems(foodItems);
                     commandFactory.setCaretaker(caretaker);
+
+                    // create the command
                     c = commandFactory.create();
+
+                    // if no error occur
                     if (c != null) {
                         c.execute();
                     }
@@ -62,6 +71,8 @@ public class Main {
                 } else {
                     throw new Exception("Invalid Option");
                 }
+            } catch (NumberFormatException e){
+                System.out.println("Only number accepted!");
             } catch (Exception e) {
                 System.out.println("*** " + e.getMessage());
             }

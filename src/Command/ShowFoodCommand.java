@@ -40,16 +40,18 @@ public class ShowFoodCommand implements Command {
             try {
                 int itemID = Integer.parseInt(inputID);
                 FoodItem foodItem = FoodItemsUtil.getFoodItemByID(foodItems, itemID);
-                if (foodItem != null) {
-                    System.out.println("Food item information");
-                    System.out.println(foodItem);
+
+                // error checking
+                if (foodItem == null){
+                    System.out.println("Food item with specified ID not found!");
                     return;
                 }
+
+                System.out.println("Food item information");
+                System.out.println(foodItem);
             } catch (NumberFormatException e){
                 System.out.println("Invalid ID!");
-                return;
             }
-            System.out.println("Food item with specified ID not found!");
         }
     }
 

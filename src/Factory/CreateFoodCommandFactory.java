@@ -21,9 +21,25 @@ public class CreateFoodCommandFactory extends CommandFactory {
         BufferedReader br = new BufferedReader(is);
         System.out.println("Enter food type (ri=rice/in=instant noodle):");
         String line = br.readLine();
-        CreateFoodCommandFactory foodCommandFactory = (CreateFoodCommandFactory) Class.forName("Factory." + ((String) foodFactoryMap.get(line))).newInstance();
+
+        // get the factoryName from the HashMap
+        String factoryName = foodFactoryMap.get(line);
+
+        // error checking
+        // if the option is not in the HashMap
+        if (factoryName == null) {
+            System.out.println("Invalid Option");
+            return null;
+        }
+
+        // then call the corresponding factory
+        CreateFoodCommandFactory foodCommandFactory = (CreateFoodCommandFactory)
+                Class.forName("Factory." +
+                        factoryName
+                ).newInstance();
         foodCommandFactory.setFoodItems(foodItems);
         foodCommandFactory.setCaretaker(caretaker);
+
         return foodCommandFactory.create();
     }
 }
