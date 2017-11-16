@@ -15,17 +15,6 @@ public class Main {
         Caretaker caretaker = new Caretaker();
         caretaker.setFoodItems(foodItems);
 
-        // for test
-        Vector<Command> commands = new Vector<>();
-        commands.add(new CreateRiceCommand(foodItems, caretaker,
-                1010, "Thailand Premium Rice", "brown"));
-        commands.add(new CreateInstantNoodleCommand(foodItems, caretaker,
-                2010, "Quick Noodle", 100));
-        commands.forEach(command -> {
-            command.execute();
-        });
-
-
         InputStreamReader is = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(is);
 
